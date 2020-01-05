@@ -1,0 +1,84 @@
+version: "2"
+
+silent: false
+
+########################################################################################################################
+#
+# TOC
+#
+########################################################################################################################
+#
+# 1. BUILD
+#
+########################################################################################################################
+
+tasks:
+  ######################################################################################################################
+  #
+  #  1. BUILD
+  #
+  ######################################################################################################################
+
+  d:build:debian:
+    desc: Build a PHP Debian-based Docker image
+    cmds:
+      - task: d:build
+        vars:
+          OS: debian
+          TARGET: builder
+          TAG_VERSION: '{{.TAG_VERSION | default "latest"}}'
+      - task: d:build
+        vars:
+          OS: debian
+          TARGET: runtime
+          TAG_VERSION: '{{.TAG_VERSION | default "latest"}}'
+
+  d:build:alpine:
+    desc: Build a PHP Alpine-based Docker image
+    cmds:
+      - task: d:build
+        vars:
+          OS: alpine
+          TARGET: builder
+          TAG_VERSION: '{{.TAG_VERSION | default "latest"}}'
+      - task: d:build
+        vars:
+          OS: alpine
+          TARGET: runtime
+          TAG_VERSION: '{{.TAG_VERSION | default "latest"}}'
+
+  d:build:
+    deps:
+      - task: d:lint
+        vars:
+          OS: '{{.OS}}'
+    preconditions:
+      - sh: test '{{.OS}}' != '<no value>'
+        msg: OS needs to contain the Docker OS [alpine, debian]
+      - sh: test '{{.TARGET}}' != '<no value>'
+        msg: TARGET needs to contain the Docker TARGET [runtime, builder]
+      - sh: test '{{.TAG_VERSION}}' != '<no value>'
+        msg: TAG_VERSION needs to contain the tag that will be assigned to the Docker build
+    cmds:
+      - docker build
+        --build-arg VCS_REF={{.OS}}-{{.TAG_VERSION}}-{{.TARGET}}
+        --build-arg VERSION=`git rev-parse HEAD`
+        --target {{.TARGET}}
+        --tag {{.TAG_REPOSITORY}}/{{.TAG_NAME}}:{{.OS}}-{{.TAG_VERSION}}-{{.TARGET}}
+        ./{{.OS}}
+
+  d:lint:
+    desc: Apply a Dockerfile linter (https://github.com/hadolint/hadolint)
+    preconditions:
+      - sh: test '{{.OS}}' != '<no value>'
+        msg: OS needs to contain the Docker OS [alpine, debian]
+    cmds:
+      - docker run
+        --interactive
+        --rm
+        hadolint/hadolint:{{.HADOLINT_TAG_VERSION}}
+        hadolint
+        --ignore DL3018
+        --ignore DL3008
+        -
+        < ./{{.OS}}/Dockerfile
