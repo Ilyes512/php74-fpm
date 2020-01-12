@@ -20,6 +20,8 @@ RUN apt-get update \
         libfreetype6 \
         # dependency of php zip-extension
         libzip4 \
+        # dependency of php uv-extension
+        libuv1 \
     # install packages that are needed for building php extensions
     && apt-get install --assume-yes --no-install-recommends \
         $PHPIZE_DEPS \
@@ -32,6 +34,8 @@ RUN apt-get update \
         libfreetype6-dev \
         # dependency of php zip-extension
         libzip-dev \
+        # dependency of php uv-extension
+        libuv1-dev \
     # configure php gd-extension
     && docker-php-ext-configure gd \
         --enable-gd \
@@ -47,6 +51,8 @@ RUN apt-get update \
         gd \
         bcmath \
         zip \
+    && pecl install channel://pecl.php.net/uv-0.2.4 \
+    && docker-php-ext-enable uv \
     # purge packages that where only needed for building php extensions
     && apt-get purge --assume-yes \
         $PHPIZE_DEPS \
@@ -55,6 +61,7 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libpng-dev \
         libzip-dev \
+        libuv1-dev \
     # remove all (non-hidden) files and dirs in /var/www/
     && rm -rf /var/www/* \
     && rm -rf /var/lib/apt/lists/* \
