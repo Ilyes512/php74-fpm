@@ -1,9 +1,9 @@
-# docker-php74-fpm
+# docker-php74-fpmb
 
 A PHP 7.4 based Docker base image.
 
-![](https://github.com/Ilyes512/docker-php74-fpm/workflows/Build%20latest%20Alpine%20images/badge.svg)
-![](https://github.com/Ilyes512/docker-php74-fpm/workflows/Build%20latest%20Debian%20images/badge.svg)
+[![Status Latest Alpine-based](https://github.com/Ilyes512/docker-php74-fpm/workflows/Build%20latest%20Alpine%20images/badge.svg)](https://github.com/Ilyes512/docker-php74-fpm/actions?query=workflow%3A%22Build+latest+Alpine+images%22)
+[![Status Latest Debian-based](https://github.com/Ilyes512/docker-php74-fpm/workflows/Build%20latest%20Debian%20images/badge.svg)](https://github.com/Ilyes512/docker-php74-fpm/actions?query=workflow%3A%22Build+latest+Debian+images%22)
 
 ## Pulling the images
 
