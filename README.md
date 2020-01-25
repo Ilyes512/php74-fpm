@@ -1,4 +1,4 @@
-# docker-php74-fpmb
+# docker-php74-fpm
 
 A PHP 7.4 based Docker base image.
 
