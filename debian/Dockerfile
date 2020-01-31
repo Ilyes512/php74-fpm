@@ -68,6 +68,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/*
 
+COPY files /s
+
 ARG VCS_REF
 ARG VERSION
 LABEL org.opencontainers.image.revision=$VCS_REF

@@ -58,6 +58,8 @@ RUN apk add --no-cache --upgrade \
     && rm -rf /var/www/* \
     && rm -rf /tmp/*
 
+COPY files /
+
 ARG VCS_REF
 ARG VERSION
 LABEL org.opencontainers.image.revision=$VCS_REF
