@@ -1,5 +1,7 @@
 FROM php:7.4.3-fpm-buster as runtime
 
+ENV PHP_UV_VERSION 0.2.4
+
 WORKDIR /var/www
 
     # install deps
@@ -9,7 +11,6 @@ RUN apt-get update \
         ca-certificates \
         openssl \
         curl \
-        git \
         msmtp \
         # dependency of the php intl-extension
         libicu63 \
@@ -51,7 +52,7 @@ RUN apt-get update \
         gd \
         bcmath \
         zip \
-    && pecl install channel://pecl.php.net/uv-0.2.4 \
+    && pecl install "channel://pecl.php.net/uv-$PHP_UV_VERSION" \
     && docker-php-ext-enable uv \
     # purge packages that where only needed for building php extensions
     && apt-get purge --assume-yes \
@@ -62,7 +63,7 @@ RUN apt-get update \
         libpng-dev \
         libzip-dev \
         libuv1-dev \
-    && mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
+    && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     # remove all (non-hidden) files and dirs in /var/www/
     && rm -rf /var/www/* \
     && rm -rf /var/lib/apt/lists/* \
@@ -85,10 +86,11 @@ LABEL org.opencontainers.image.source=https://github.com/Ilyes512/docker-php74-f
 FROM runtime as builder
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_VERSION 1.9.2
-ENV COMPOSER_SHA256 58753998712ae435915a452d701ae28a9389653bbf36b3b6adf24e03d90a9467
-ENV XDEBUG_VERSION 2.9.1
+ENV COMPOSER_VERSION 1.10.0
+ENV COMPOSER_SHA256 8ced713bde2d89468c3385588daf27dc6fc7bc7619f95239068608d303700b09
+ENV XDEBUG_VERSION 2.9.3
 ENV PATH /root/.composer/vendor/bin:$PATH
+ENV PRESTISSIMO_VERSION 0.3.10
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -98,17 +100,18 @@ RUN curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/loc
     && echo "$COMPOSER_SHA256 */usr/local/bin/composer" | sha256sum -c - \
     && composer --ansi --version --no-interaction \
     # install prestissimo composer plugin (paralell downloading of packages - remove this when Composer 2 is released!)
-    && composer global require hirak/prestissimo:0.3.9 \
+    && composer global require "hirak/prestissimo:$PRESTISSIMO_VERSION" \
     # Needed for xdebug extension configuration
     && apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         $PHPIZE_DEPS \
-    && pecl install xdebug-$XDEBUG_VERSION \
+        sqlite3 \
+        git \
+    && pecl install "xdebug-$XDEBUG_VERSION" \
     && docker-php-ext-enable xdebug \
     && apt-get purge --assume-yes $PHPIZE_DEPS \
     && rm -rf /var/lib/apt/lists/* \
-    && mv $PHP_INI_DIR/php.ini $PHP_INI_DIR/php.ini-production \
-    && mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini \
+    && cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     && rm -rf /tmp/*
 
 ARG VCS_REF
