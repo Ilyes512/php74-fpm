@@ -26,14 +26,16 @@ jobs:
             --build-arg VCS_REF=`git rev-parse HEAD` \
             --build-arg VERSION=$OS-latest-builder \
             --tag $DOCKER_REPO:$OS-latest-builder \
+            --file $OS/Dockerfile \
             --target builder \
-            ./$OS
+            .
           docker build \
             --build-arg VCS_REF=`git rev-parse HEAD` \
             --build-arg VERSION=$OS-latest-runtime \
             --tag $DOCKER_REPO:$OS-latest-runtime \
+            --file $OS/Dockerfile \
             --target runtime \
-            ./$OS
+            .
       - name: Push containers
         run: |
           docker push $DOCKER_REPO:$OS-latest-builder
