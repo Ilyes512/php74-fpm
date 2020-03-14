@@ -33,17 +33,17 @@ There are 2 targets at the moment:
 Building runtime-target:
 
 ```
-docker build --tag ilyes512/php74-fpm:alpine-latest-runtime --target runtime alpine
+docker build --tag ilyes512/php74-fpm:alpine-latest-runtime --file alpine/Dockerfile --target runtime .
 
-docker build --tag ilyes512/php74-fpm:debian-latest-runtime --target runtime debian
+docker build --tag ilyes512/php74-fpm:debian-latest-runtime --file alpine/Dockerfile --target runtime .
 ```
 
 Building builder-target:
 
 ```
-docker build --tag ilyes512/php74-fpm:alpine-latest-builder --target builder alpine
+docker build --tag ilyes512/php74-fpm:alpine-latest-builder --file debian/Dockerfile --target builder .
 
-docker build --tag ilyes512/php74-fpm:debian-latest-builder --target builder debian
+docker build --tag ilyes512/php74-fpm:debian-latest-builder --file debian/Dockerfile --target builder .
 ```
 
 ## Task commands

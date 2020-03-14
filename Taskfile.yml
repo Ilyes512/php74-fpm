@@ -63,9 +63,10 @@ tasks:
       - docker build
         --build-arg VCS_REF={{.OS}}-{{.TAG_VERSION}}-{{.TARGET}}
         --build-arg VERSION=`git rev-parse HEAD`
+        --file {{.OS}}/Dockerfile
         --target {{.TARGET}}
         --tag {{.TAG_REPOSITORY}}/{{.TAG_NAME}}:{{.OS}}-{{.TAG_VERSION}}-{{.TARGET}}
-        ./{{.OS}}
+        .
 
   d:lint:
     desc: Apply a Dockerfile linter (https://github.com/hadolint/hadolint)
