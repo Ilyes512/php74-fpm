@@ -1,4 +1,4 @@
-FROM php:7.4.3-fpm-buster as runtime
+FROM php:7.4.4-fpm-buster as runtime
 
 ENV PHP_UV_VERSION 0.2.4
 
