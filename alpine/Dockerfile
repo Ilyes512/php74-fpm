@@ -1,4 +1,4 @@
-FROM php:7.4.3-fpm-alpine3.11 as runtime
+FROM php:7.4.4-fpm-alpine3.11 as runtime
 
 ENV PHP_UV_VERSION 0.2.4
 
