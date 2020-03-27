@@ -86,10 +86,10 @@ LABEL org.opencontainers.image.source=https://github.com/Ilyes512/docker-php74-f
 FROM runtime as builder
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_VERSION 1.10.0
-ENV COMPOSER_SHA256 8ced713bde2d89468c3385588daf27dc6fc7bc7619f95239068608d303700b09
-ENV XDEBUG_VERSION 2.9.3
-ENV PATH /root/.composer/vendor/bin:$PATH
+ENV COMPOSER_VERSION 1.10.1
+ENV COMPOSER_SHA256 1831f266580f221189dc04d4b58d7fc50c934ffc3a0eca89ecb4a53aa44867e2
+ENV XDEBUG_VERSION 2.9.4
+ENV PATH "/root/.composer/vendor/bin:${PATH}"
 ENV PRESTISSIMO_VERSION 0.3.10
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
