@@ -73,8 +73,10 @@ COPY files /
 
 ARG VCS_REF
 ARG VERSION
+ARG CREATED
 LABEL org.opencontainers.image.revision=$VCS_REF
 LABEL org.opencontainers.image.version=$VERSION
+LABEL org.opencontainers.image.created=$CREATED
 LABEL org.opencontainers.image.title=php74-fpm
 LABEL org.opencontainers.image.description="A PHP 7.4 based base image for development and production"
 LABEL org.opencontainers.image.url=https://github.com/Ilyes512/docker-php74-fpm
@@ -117,8 +119,10 @@ RUN curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/loc
 
 ARG VCS_REF
 ARG VERSION
+ARG CREATED
 LABEL org.opencontainers.image.revision=$VCS_REF
 LABEL org.opencontainers.image.version=$VERSION
+LABEL org.opencontainers.image.created=$CREATED
 LABEL org.opencontainers.image.title=php74-fpm
 LABEL org.opencontainers.image.description="A PHP 7.4 based base image for development and production"
 LABEL org.opencontainers.image.url=https://github.com/Ilyes512/docker-php74-fpm
