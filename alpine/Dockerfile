@@ -62,8 +62,8 @@ RUN apk add --no-cache --upgrade \
 COPY files /
 
 ARG VCS_REF
-ARG VERSION
 ARG CREATED
+ARG VERSION=$PHP_VERSION
 LABEL org.opencontainers.image.revision=$VCS_REF
 LABEL org.opencontainers.image.version=$VERSION
 LABEL org.opencontainers.image.created=$CREATED
@@ -107,8 +107,8 @@ RUN curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/loc
     && rm -rf /tmp/*
 
 ARG VCS_REF
-ARG VERSION
 ARG CREATED
+ARG VERSION=$PHP_VERSION
 LABEL org.opencontainers.image.revision=$VCS_REF
 LABEL org.opencontainers.image.version=$VERSION
 LABEL org.opencontainers.image.created=$CREATED
