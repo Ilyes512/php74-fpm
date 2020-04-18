@@ -16,17 +16,17 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
-          repository: $DOCKER_REPO
+          repository: ${{ env.DOCKER_REPO }}
           add_git_labels: true
-          dockerfile: $OS/Dockerfile
+          dockerfile: ${{ env.OS }}/Dockerfile
           target: builder
-          tag: $OS-pr-builder
+          tag: ${{ env.OS }}-pr-builder
           push: false
       - uses: docker/build-push-action@v1
         with:
-          repository: $DOCKER_REPO
+          repository: ${{ env.DOCKER_REP }}
           add_git_labels: true
-          dockerfile: $OS/Dockerfile
+          dockerfile: ${{ env.OS }}/Dockerfile
           target: runtime
-          tag: $OS-pr-runtime
+          tag: ${{ env.OS }}-pr-runtime
           push: false
