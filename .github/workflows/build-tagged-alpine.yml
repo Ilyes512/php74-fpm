@@ -2,7 +2,7 @@ name: Build tagged Alpine images
 
 on:
   push:
-    tags: ['alpine-*']
+    tags: ["alpine-*"]
 
 env:
   OS: alpine
@@ -14,32 +14,27 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Login to docker registry
-        uses: azure/docker-login@8d6f807dfe933ef49956873df1022dd03a761071
+      - name: Set TAG-env
+        run: echo ::set-env name=TAG::$(echo $GITHUB_REF | cut -d / -f 3-)
+      - name: Output TAG-env
+        run: 'echo "\$TAG: $TAG"'
+      - uses: docker/build-push-action@v1
         with:
+          repository: ${{ env.DOCKER_REPO }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - name: Build containers
-        run: |
-          TAG=`echo $GITHUB_REF | cut -c11-`
-          echo "\$TAG: $TAG"
-          docker build \
-            --build-arg VCS_REF=`git rev-parse HEAD` \
-            --build-arg VERSION=$TAG-builder \
-            --tag $DOCKER_REPO:$TAG-builder \
-            --file $OS/Dockerfile \
-            --target builder \
-            .
-          docker build \
-            --build-arg VCS_REF=`git rev-parse HEAD` \
-            --build-arg VERSION=$TAG-runtime \
-            --tag $DOCKER_REPO:$TAG-runtime \
-            --file $OS/Dockerfile \
-            --target runtime \
-            .
-      - name: Push containers
-        run: |
-          TAG=`echo $GITHUB_REF | cut -c11-`
-          echo "\$TAG: $TAG"
-          docker push $DOCKER_REPO:$TAG-builder
-          docker push $DOCKER_REPO:$TAG-runtime
+          dockerfile: ${{ env.OS }}/Dockerfile
+          target: builder
+          add_git_labels: true
+          tag: ${{ env.TAG }}-builder
+          tag_with_sha: true
+      - uses: docker/build-push-action@v1
+        with:
+          repository: ${{ env.DOCKER_REPO }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+          dockerfile: ${{ env.OS }}/Dockerfile
+          target: runtime
+          add_git_labels: true
+          tag: ${{ env.TAG }}-runtime
+          tag_with_sha: true

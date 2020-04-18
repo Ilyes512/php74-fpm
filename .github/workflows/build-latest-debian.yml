@@ -3,7 +3,7 @@ name: Build latest Debian images
 on:
   push:
     branches: [master]
-    paths: ['debian/**']
+    paths: ["debian/**"]
 
 env:
   OS: debian
@@ -15,28 +15,23 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Login to docker registry
-        uses: azure/docker-login@8d6f807dfe933ef49956873df1022dd03a761071
+      - uses: docker/build-push-action@v1
         with:
+          repository: ${{ env.DOCKER_REPO }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - name: Build containers
-        run: |
-          docker build \
-            --build-arg VCS_REF=`git rev-parse HEAD` \
-            --build-arg VERSION=$OS-latest-builder \
-            --tag $DOCKER_REPO:$OS-latest-builder \
-            --file $OS/Dockerfile \
-            --target builder \
-            .
-          docker build \
-            --build-arg VCS_REF=`git rev-parse HEAD` \
-            --build-arg VERSION=$OS-latest-runtime \
-            --tag $DOCKER_REPO:$OS-latest-runtime \
-            --file $OS/Dockerfile \
-            --target runtime \
-            .
-      - name: Push containers
-        run: |
-          docker push $DOCKER_REPO:$OS-latest-builder
-          docker push $DOCKER_REPO:$OS-latest-runtime
+          dockerfile: ${{ env.OS }}/Dockerfile
+          target: builder
+          add_git_labels: true
+          tag: ${{ env.OS }}-latest-builder
+          tag_with_sha: true
+      - uses: docker/build-push-action@v1
+        with:
+          repository: ${{ env.DOCKER_REPO }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+          dockerfile: ${{ env.OS }}/Dockerfile
+          target: runtime
+          add_git_labels: true
+          tag: ${{ env.OS }}-latest-runtime
+          tag_with_sha: true
