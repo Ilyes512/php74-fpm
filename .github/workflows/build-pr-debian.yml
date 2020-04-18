@@ -1,0 +1,32 @@
+name: Test Building Debian images
+
+on:
+  pull_request:
+    paths: ["debian/**"]
+
+env:
+  OS: debian
+  DOCKER_REPO: ilyes512/php74-fpm
+
+jobs:
+  test_build:
+    name: Test Build Debian
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v1
+        with:
+          repository: $DOCKER_REPO
+          add_git_labels: true
+          dockerfile: $OS/Dockerfile
+          target: builder
+          tag: $OS-pr-builder
+          push: false
+      - uses: docker/build-push-action@v1
+        with:
+          repository: $DOCKER_REPO
+          add_git_labels: true
+          dockerfile: $OS/Dockerfile
+          target: runtime
+          tag: $OS-pr-runtime
+          push: false
