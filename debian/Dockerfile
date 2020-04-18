@@ -1,6 +1,6 @@
 FROM php:7.4.4-fpm-buster as runtime
 
-ENV PHP_UV_VERSION 0.2.4
+ARG PHP_UV_VERSION=0.2.4
 
 WORKDIR /var/www
 
@@ -72,11 +72,13 @@ RUN apt-get update \
 COPY files /
 
 ARG VCS_REF
-ARG VERSION
+ARG CREATED
+ARG VERSION=$PHP_VERSION
 LABEL org.opencontainers.image.revision=$VCS_REF
 LABEL org.opencontainers.image.version=$VERSION
+LABEL org.opencontainers.image.created=$CREATED
 LABEL org.opencontainers.image.title=php74-fpm
-LABEL org.opencontainers.image.description="A PHP 7.4 based base image for development and production"
+LABEL org.opencontainers.image.description="A PHP 7.4 based base image"
 LABEL org.opencontainers.image.url=https://github.com/Ilyes512/docker-php74-fpm
 LABEL org.opencontainers.image.documentation=https://github.com/Ilyes512/docker-php74-fpm/blob/master/README.md
 LABEL org.opencontainers.image.vendor="ilyes512"
@@ -86,11 +88,12 @@ LABEL org.opencontainers.image.source=https://github.com/Ilyes512/docker-php74-f
 FROM runtime as builder
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_VERSION 1.10.1
-ENV COMPOSER_SHA256 1831f266580f221189dc04d4b58d7fc50c934ffc3a0eca89ecb4a53aa44867e2
-ENV XDEBUG_VERSION 2.9.4
 ENV PATH "/root/.composer/vendor/bin:${PATH}"
-ENV PRESTISSIMO_VERSION 0.3.10
+
+ARG COMPOSER_VERSION=1.10.5
+ARG COMPOSER_SHA256=d5f3fddd0be28a5fc9bf2634a06f51bc9bd581fabda93fee7ca8ca781ae43129
+ARG XDEBUG_VERSION=2.9.4
+ARG PRESTISSIMO_VERSION=0.3.10
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -115,11 +118,13 @@ RUN curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/loc
     && rm -rf /tmp/*
 
 ARG VCS_REF
-ARG VERSION
+ARG CREATED
+ARG VERSION=$PHP_VERSION
 LABEL org.opencontainers.image.revision=$VCS_REF
 LABEL org.opencontainers.image.version=$VERSION
+LABEL org.opencontainers.image.created=$CREATED
 LABEL org.opencontainers.image.title=php74-fpm
-LABEL org.opencontainers.image.description="A PHP 7.4 based base image for development and production"
+LABEL org.opencontainers.image.description="A PHP 7.4 based base image"
 LABEL org.opencontainers.image.url=https://github.com/Ilyes512/docker-php74-fpm
 LABEL org.opencontainers.image.documentation=https://github.com/Ilyes512/docker-php74-fpm/blob/master/README.md
 LABEL org.opencontainers.image.vendor="ilyes512"

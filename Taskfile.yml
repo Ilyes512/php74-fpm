@@ -61,8 +61,8 @@ tasks:
         msg: TAG_VERSION needs to contain the tag that will be assigned to the Docker build
     cmds:
       - docker build
-        --build-arg VCS_REF={{.OS}}-{{.TAG_VERSION}}-{{.TARGET}}
-        --build-arg VERSION=`git rev-parse HEAD`
+        --build-arg VCS_REF=$(git rev-parse HEAD)
+        --build-arg CREATED=$(date --iso-8601=seconds)
         --file {{.OS}}/Dockerfile
         --target {{.TARGET}}
         --tag {{.TAG_REPOSITORY}}/{{.TAG_NAME}}:{{.OS}}-{{.TAG_VERSION}}-{{.TARGET}}
