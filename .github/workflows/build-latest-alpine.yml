@@ -24,7 +24,6 @@ jobs:
           target: builder
           add_git_labels: true
           tag: ${{ env.OS }}-latest-builder,latest-builder
-          tag_with_sha: true
       - uses: docker/build-push-action@v1
         with:
           repository: ${{ env.DOCKER_REPO }}
@@ -34,4 +33,3 @@ jobs:
           target: runtime
           add_git_labels: true
           tag: ${{ env.OS }}-latest-runtime,latest-runtime
-          tag_with_sha: true
