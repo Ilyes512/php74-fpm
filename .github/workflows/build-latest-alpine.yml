@@ -3,7 +3,7 @@ name: Build latest Alpine images
 on:
   push:
     branches: [master]
-    paths: ["alpine/**"]
+    paths: ["alpine/**", ".github/workflows/**"]
 
 env:
   OS: alpine
