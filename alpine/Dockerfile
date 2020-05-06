@@ -97,7 +97,7 @@ RUN curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/loc
     && composer global require "hirak/prestissimo:$PRESTISSIMO_VERSION" \
     # Install some builder-only apps
     && apk add --no-cache --upgrade --no-progress \
-        vim
+        vim \
         git \
         unzip \
         sqlite \
