@@ -108,8 +108,10 @@ RUN curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/loc
     && apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         $PHPIZE_DEPS \
-        sqlite3 \
+        vim \
         git \
+        unzip \
+        sqlite3 \
     && pecl install "xdebug-$XDEBUG_VERSION" \
     && docker-php-ext-enable xdebug \
     && apt-get purge --assume-yes $PHPIZE_DEPS \
