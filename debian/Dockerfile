@@ -1,5 +1,6 @@
 FROM php:7.4.5-fpm-buster as runtime
 
+# Latest version of UV at the moment: https://pecl.php.net/package/uv
 ARG PHP_UV_VERSION=0.2.4
 
 WORKDIR /var/www
