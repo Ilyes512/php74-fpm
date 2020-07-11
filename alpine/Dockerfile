@@ -81,9 +81,12 @@ FROM runtime as builder
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV PATH "/root/.composer/vendor/bin:${PATH}"
 
-ARG COMPOSER_VERSION=1.10.6
-ARG COMPOSER_SHA256=29bdac1bda34d8902b9f9e4f5816de08879b8f3fafad901e4283519cdefbee7b
-ARG XDEBUG_VERSION=2.9.5
+# Latest version of Composer: https://getcomposer.org/download/
+ARG COMPOSER_VERSION=1.10.8
+ARG COMPOSER_SHA256=4c40737f5d5f36d04f8b2df37171c6a1ff520efcadcb8626cc7c30bd4c5178e5
+# Latest version of XDdebug: https://xdebug.org/
+ARG XDEBUG_VERSION=2.9.6
+# Latest version of prestissimo: https://packagist.org/packages/hirak/prestissimo
 ARG PRESTISSIMO_VERSION=0.3.10
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
