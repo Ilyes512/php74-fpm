@@ -1,4 +1,4 @@
-FROM php:7.4.13-fpm-alpine3.12 as runtime
+FROM php:7.4.14-fpm-alpine3.12 as runtime
 
 # Latest version of UV at the moment: https://pecl.php.net/package/uv
 ARG PHP_UV_VERSION=0.2.4
