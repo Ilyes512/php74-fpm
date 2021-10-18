@@ -18,7 +18,7 @@ jobs:
         run: echo ::set-env name=TAG::$(echo $GITHUB_REF | cut -d / -f 3-)
       - name: Output TAG-env
         run: 'echo "\$TAG: $TAG"'
-      - uses: docker/build-push-action@v1
+      - uses: docker/build-push-action@v2
         with:
           repository: ${{ env.DOCKER_REPO }}
           username: ${{ secrets.REGISTRY_USERNAME }}
@@ -27,7 +27,7 @@ jobs:
           target: builder
           add_git_labels: true
           tag: ${{ env.TAG }}-builder
-      - uses: docker/build-push-action@v1
+      - uses: docker/build-push-action@v2
         with:
           repository: ${{ env.DOCKER_REPO }}
           username: ${{ secrets.REGISTRY_USERNAME }}

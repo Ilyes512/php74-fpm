@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - uses: docker/build-push-action@v1
+      - uses: docker/build-push-action@v2
         with:
           repository: ${{ env.DOCKER_REPO }}
           add_git_labels: true
@@ -22,7 +22,7 @@ jobs:
           target: builder
           tag: ${{ env.OS }}-pr-builder
           push: false
-      - uses: docker/build-push-action@v1
+      - uses: docker/build-push-action@v2
         with:
           repository: ${{ env.DOCKER_REPO }}
           add_git_labels: true
