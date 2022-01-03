@@ -1,7 +1,11 @@
+**/.DS_Store
+**/.gitignore
+**/.gitattributes
+**/Taskfile.yml
+**/README.md
+**/.editorconfig
+**/.gitlab-ci.yml
+**/.dockerignore
 .git
-.gitignore
-.github
-.editorconfig
-README.md
-Taskfile.yml
-Taskvars.yml
+LICENSE
+.actrc
