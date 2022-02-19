@@ -1,4 +1,4 @@
-FROM php:7.4.27-fpm-bullseye AS runtime
+FROM php:7.4.28-fpm-bullseye AS runtime
 
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
